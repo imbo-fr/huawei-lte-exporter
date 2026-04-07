@@ -1,9 +1,8 @@
 # syntax=docker/dockerfile:1
 
-# ── Build stage (always runs on the BUILD host, not the target platform) ──────
+# ── Build stage ────────────────────────────────────────────────────────────────
 FROM --platform=$BUILDPLATFORM python:3.12-slim AS builder
 
-# Pull uv for the BUILD host platform, not target (avoids arm/v7 manifest error)
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 WORKDIR /app
@@ -12,20 +11,22 @@ ENV UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy \
     UV_PYTHON_DOWNLOADS=never
 
-# Layer 1: deps only (cached unless uv.lock/pyproject.toml changes)
+# COPY the lockfiles so they persist across all RUN steps
+COPY pyproject.toml uv.lock ./
+
+# Layer 1: install deps only (cached until uv.lock changes)
 RUN --mount=type=cache,target=/root/.cache/uv \
-    --mount=type=bind,source=uv.lock,target=uv.lock \
-    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     uv sync --frozen --no-install-project --no-dev
 
-# Layer 2: project source
+# Layer 2: copy source, then install the project itself
 COPY src/ src/
 COPY README.md ./
 
+# pyproject.toml and uv.lock are already present from the COPY above
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev
 
-# ── Runtime stage (built for each TARGET platform) ────────────────────────────
+# ── Runtime stage ──────────────────────────────────────────────────────────────
 FROM python:3.12-slim AS runtime
 
 LABEL org.opencontainers.image.title="huawei-lte-exporter"
@@ -39,7 +40,7 @@ RUN addgroup --system exporter \
 WORKDIR /app
 
 COPY --from=builder --chown=exporter:exporter /app/.venv /app/.venv
-COPY --from=builder --chown=exporter:exporter /app/src  /app/src
+COPY --from=builder --chown=exporter:exporter /app/src   /app/src
 
 ENV PATH="/app/.venv/bin:$PATH"
 
