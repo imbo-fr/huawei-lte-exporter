@@ -91,10 +91,6 @@ scrape_configs:
           instance: "home_router"
 ```
 
-## Grafana
-
-Dashboard ID : **XXX** or [grafana/dashboard.json](./grafana/dashboard.json)
-
 ## Signal quality reference (for 4G)
 
 | Metric | Excellent | Good | Fair | Poor |
