@@ -1,7 +1,7 @@
 services:
   huawei-lte-exporter:
     image: ghcr.io/imbo-fr/huawei-lte-exporter:latest
-    # build: .   # ← uncomment for local dev
+    build: .   # ← uncomment for local dev
     container_name: huawei-lte-exporter
     environment:
       ROUTER_URL:     "http://192.168.8.1/"
