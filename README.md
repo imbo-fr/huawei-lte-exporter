@@ -91,6 +91,15 @@ scrape_configs:
           instance: "home_router"
 ```
 
+## Grafana
+
+This dashboard can be installed directly from Grafana with ID : **25133** ([Direct URL](https://grafana.com/grafana/dashboards/25133)) or with JSON : [grafana/dashboard.json](./grafana/dashboard.json)
+
+![Dashboard Panel 1 example](./grafana/dashboard-1.png)
+![Dashboard Panel 2 example](./grafana/dashboard-2.png)
+![Dashboard Panel 3 example](./grafana/dashboard-3.png)
+![Dashboard Panel 4 example](./grafana/dashboard-4.png)
+
 ## Signal quality reference (for 4G)
 
 | Metric | Excellent | Good | Fair | Poor |
