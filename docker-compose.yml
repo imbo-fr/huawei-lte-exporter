@@ -1,0 +1,15 @@
+services:
+  huawei-lte-exporter:
+    image: ghcr.io/imbo-fr/huawei-lte-exporter:latest
+    # build: .   # ← uncomment for local dev
+    container_name: huawei-lte-exporter
+    environment:
+      ROUTER_URL:     "http://192.168.8.1/"
+      ROUTER_USER:    "admin"
+      ROUTER_PASS:    "${ROUTER_PASS}"
+      EXPORTER_PORT:  "9898"
+      LOG_LEVEL:      "INFO"
+      SCRAPE_TIMEOUT: "10"
+    restart: unless-stopped
+    ports:
+      - "9898:9898"
