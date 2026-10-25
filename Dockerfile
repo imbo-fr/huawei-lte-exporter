@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # ── Build stage ────────────────────────────────────────────────────────────────
-FROM --platform=$BUILDPLATFORM python:3.15-slim@sha256:044d5bd747976e21f8bc4d746c3479b19a84bb8ae6261b802acdd26b29036c93 AS builder
+FROM --platform=$BUILDPLATFORM python:3.15-slim@sha256:533b0b2f9b5d46fd097091cf826f27902f1d6c3bca714b6dc74551356aa97a51 AS builder
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
@@ -27,7 +27,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev
 
 # ── Runtime stage ──────────────────────────────────────────────────────────────
-FROM python:3.15-slim@sha256:044d5bd747976e21f8bc4d746c3479b19a84bb8ae6261b802acdd26b29036c93 AS runtime
+FROM python:3.15-slim@sha256:533b0b2f9b5d46fd097091cf826f27902f1d6c3bca714b6dc74551356aa97a51 AS runtime
 
 LABEL org.opencontainers.image.title="huawei-lte-exporter"
 LABEL org.opencontainers.image.description="Prometheus exporter for Huawei LTE routers"
