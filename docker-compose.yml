@@ -1,6 +1,6 @@
 services:
   huawei-lte-exporter:
-    image: ghcr.io/imbo-fr/huawei-lte-exporter:latest
+    image: ghcr.io/imbo-fr/huawei-lte-exporter:latest@sha256:c5d199c3f8b5d29fd430a03da8e9fd1be07b532985f6a6a79ea8541027a713d5
     # build: .   # ← uncomment for local dev
     container_name: huawei-lte-exporter
     environment:
